@@ -36,30 +36,30 @@ def available_moves(board):
     return moves
 
 
-def evaluate_move(board, ai_turn):
+def evaluate_move(board, comp_turn):
     if winner(board, 'O'):
-        return 1  # AI
+        return 1  # Computer
     if winner(board, 'X'):
         return -1  # Player
     if draw(board):
         return 0
 
     best_score = -10
-    if not ai_turn:
+    if not comp_turn:
         best_score = 10
 
     for move in available_moves(board):
-        if ai_turn:
+        if comp_turn:
             board[move] = 'O'
         else:
             board[move] = 'X'
 
-        score = evaluate_move(board, not ai_turn)
+        score = evaluate_move(board, not comp_turn)
         board[move] = ' '
 
         if best_score is None:
             best_score = score
-        elif ai_turn:
+        elif comp_turn:
             best_score = max(score, best_score)
         else:
             best_score = min(score, best_score)
@@ -104,14 +104,14 @@ while game_over == 0:
         game_over = 1
         break
 
-    print("AI is making a move...")
+    print("Computer is making a move...")
     possible_moves = available_moves(board)
     move = np.random.choice(possible_moves)
     board[move] = 'O'
     print_board()
 
     if winner(board, 'O'):
-        print("AI wins!")
+        print("Computer wins!")
         game_over = 1
         break
     elif draw(board):
